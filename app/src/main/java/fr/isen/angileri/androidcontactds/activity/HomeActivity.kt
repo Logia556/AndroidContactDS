@@ -5,12 +5,17 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.example.Results
 import fr.isen.angileri.androidcontactds.R
-import fr.isen.angileri.androidcontactds.model.Contact
-import fr.isen.angileri.androidcontactds.model.RecycleViewAdapter
+import fr.isen.angileri.androidcontactds.model.ContactsViewAdapter
 
 class HomeActivity : AppCompatActivity() {
-    lateinit var contacts: List<Contact>
+    companion object {
+        const val URL = "https://randomuser.me/api/?results=10&nat=fr"
+    }
+
+    private lateinit var adapter: ContactsViewAdapter
+    lateinit var contacts: List<Results>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -20,35 +25,13 @@ class HomeActivity : AppCompatActivity() {
 
 
         val rvActiveElement = findViewById<View>(R.id.recyclerViewContacts) as RecyclerView
-        contacts = Contact.createContact()
-        val adapter = RecycleViewAdapter(contacts)
+
         rvActiveElement.adapter = adapter
         rvActiveElement.layoutManager = LinearLayoutManager(this)
 
 
     }
-
-
-
-    /*
-    companion object {
-        const val URL = "https://randomuser.me/api/?results=10&nat=fr"
-    }
-    private lateinit var binding: ActivityHomeBinding
-    private lateinit var adapter: ContactsViewAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
-        binding = ActivityHomeBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        //adapter = ContactsViewAdapter(mutableListOf(), this::changeActivityDetail)
-        binding.recyclerCategory.adapter = adapter
-        binding.recyclerCategory.layoutManager = LinearLayoutManager(this)
-        binding.recyclerCategory.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-*/
-        /*
+     /*
         val recyclerViewContacts = findViewById<View>(R.id.recyclerViewContacts) as RecyclerView
         // Initialize contacts
         contacts = Results.createContactsList(20)
@@ -60,13 +43,27 @@ class HomeActivity : AppCompatActivity() {
         rvContacts.layoutManager = LinearLayoutManager(this)
         // That's all!
 */
-
-
-
+    }/*
+    private fun populateContacts() {
+        val queue = Volley.newRequestQueue(this)
+        val request = JsonObjectRequest(
+            Request.Method.GET, URL, null,
+            { response ->
+                val results = response.getJSONArray("results")
+                val contacts = mutableListOf<Results>()
+                for (i in 0 until results.length()) {
+                    val contact = Results.fromJson(results.getJSONObject(i))
+                    contacts.add(contact)
+                }
+                adapter.updateContacts(contacts)
+            },
+            { error ->
+                Log.d("ERROR", error.toString())
+            }
+        )
+        queue.add(request)
     }
 
-
-/*
     private fun getContactsAPI() {
         val queue = Volley.newRequestQueue(this.applicationContext)
 
@@ -74,7 +71,7 @@ class HomeActivity : AppCompatActivity() {
         requestBody.get("results")
 
         val jsonRequest = JsonObjectRequest(
-            Request.Method.POST,
+            Request.Method.GET,
             URL,
             requestBody,
             { response ->
@@ -90,5 +87,4 @@ class HomeActivity : AppCompatActivity() {
     private fun responseHandler(response: JSONObject){
         val contacts = response.getJSONArray("results")
 
-    }
-}*/
+    }*/

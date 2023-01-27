@@ -3,11 +3,14 @@ package fr.isen.angileri.androidcontactds.model
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.example.Results
+import com.squareup.picasso.Picasso
 import fr.isen.angileri.androidcontactds.R
 
-class RecycleViewAdapter (private val mContacts: List<Contact>) : RecyclerView.Adapter<RecycleViewAdapter.ViewHolder>(){
+/*class RecycleViewAdapter (private val mContacts: List<Contact>) : RecyclerView.Adapter<RecycleViewAdapter.ViewHolder>(){
 
 
         // Provide a direct reference to each of the views within a data item
@@ -53,9 +56,9 @@ class RecycleViewAdapter (private val mContacts: List<Contact>) : RecyclerView.A
             return mContacts.size
         }
 
-    }
-/*abstract class ContactsViewAdapter(private val contacts: List<Results>) : RecyclerView.Adapter<ContactsViewAdapter.ContactsViewHolder>() {
-    // provide a default constructor
+    }*/
+abstract class ContactsViewAdapter(private val contacts: List<Results>) : RecyclerView.Adapter<ContactsViewAdapter.ContactsViewHolder>() {
+
 
 
 
@@ -89,4 +92,4 @@ class RecycleViewAdapter (private val mContacts: List<Contact>) : RecyclerView.A
             Picasso.get().load(contact.getPicture())
         }
     }
-}*/
+}
